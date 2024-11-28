@@ -706,7 +706,7 @@ db.grupos.aggregate([
     { $match: { "ID_grupo": "G1" } },
     { $unwind: "$Estudiantes" },
     { $match: { "Materia.ID": "MATH101" } },
-    { $project: { "Estudiantes.Nombre": 1 } }
+    { $project: { "Estudiantes.Nombre": 1, _id:0 } }
 ]);
 
 // Q3. Listar las calificaciones de un alumno en todas sus materias cursadas
@@ -723,7 +723,7 @@ use('AvanceAcademicoTecNM');
 db.grupos.aggregate([
     { $unwind: "$Docente" },
     { $match: { "Materia.ID": "MATH101" } },
-    { $project: { "Docente.Nombre": 1 } }
+    { $project: { "Docente.Nombre": 1, _id:0 } }
 ]);
 
 // Q5. Listar los alumnos que han obtenido una calificación superior a 90 en una materia específica
@@ -733,14 +733,14 @@ db.grupos.aggregate([
     { $match: { "Materia.ID": "MATH101" } },
     { $unwind: "$Estudiantes.Expediente académico" },
     { $match: { "Estudiantes.Expediente académico.calificacion": { $gt: 90 } } },
-    { $project: { "Estudiantes.Nombre": 1 } }
+    { $project: { "Estudiantes.Nombre": 1, _id:0 } }
 ]);
 
 // Q6. Listar los grupos que correspondan a una materia específica
 use('AvanceAcademicoTecNM');
 db.grupos.aggregate([
     { $match: { "Materia.ID": "MATH101" } },
-    { $project: { "ID_grupo": 1 } }
+    { $project: { "ID_grupo": 1, _id:0 } }
 ]);
 
 // Q7. Listar las materias que cursa un alumno en específico (horario)
@@ -748,7 +748,7 @@ use('AvanceAcademicoTecNM');
 db.grupos.aggregate([
     { $unwind: "$Estudiantes" },
     { $match: { "Estudiantes.ID_curp": "CURP123456789" } },
-    { $project: { "Materia.Nombre": 1, "Horario": 1 } }
+    { $project: { "Materia.Nombre": 1, "Horario": 1, _id:0 } }
 ]);
 
 // Q8. Listar las materias que faltan por cursar a un alumno en específico

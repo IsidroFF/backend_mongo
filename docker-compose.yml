@@ -1,0 +1,70 @@
+version: '3.9'
+services:
+  mondongo_master:
+    image: mongo
+    container_name: mongo_master
+    command: ["mognod --replSet replica01"]
+    ports:
+      - "27017:27017"
+    networks:
+      - backend
+    
+  mondongo_sec1:
+    image: mongo
+    container_name: mongo_sec1
+    command: ["mognod --replSet replica01"]
+    ports:
+      - "27018:27017"
+    networks:
+      - backend
+
+  mondongo_sec2:
+    image: mongo
+    container_name: mongo_sec2
+    command: ["mognod --replSet replica01"]
+    ports:
+      - "27019:27017"
+    networks:
+      - backend
+
+  mondongo_sec3:
+    image: mongo
+    container_name: mongo_sec3
+    command: ["mognod --replSet replica01"]
+    ports:
+      - "27020:27017"
+    networks:
+      - backend
+
+  redis_stack:
+    image: redis/redis-stack
+    container_name: stack2
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    networks:
+      - backend
+
+  # backend_app:
+  #   image: isidroitt/node_neo4j_api:latest
+  #   container_name: "node_app"
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - backend
+  #   environment:
+  #     REDIS_URL: stack2
+  #     MONDONGO_MASTER_URL: neo4j://neo_presentacion:7687
+  #     MONDONGO_SEC1_URL: neo4j://neo_presentacion:7687
+  #     MONDONGO_SEC2_URL: neo4j://neo_presentacion:7687
+  #     MONDONGO_SEC3_URL: neo4j://neo_presentacion:7687
+  #   depends_on:
+  #     - redis_stack
+  #     - mondongo_master
+  #     - mondongo_sec1
+  #     - mondongo_sec2
+  #     - mondongo_sec3
+
+networks:
+  backend:
+    driver: bridge
