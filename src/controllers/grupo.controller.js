@@ -1,5 +1,43 @@
 const Grupo = require('../models/grupo.schema.js')
 
+const addGroup = async (req, res) => {
+    const { 
+        ID_grupo,
+        Materia,
+        Docente,
+        Estudiantes,
+        Aula,
+        Horario
+    } = req.body;
+
+    try {
+        // Crear un nuevo objeto de grupo
+        const newGroup = new Grupo({ 
+            ID_grupo,
+            Materia,
+            Docente,
+            Estudiantes,
+            Aula,
+            Horario
+        });
+
+        // Guardar el nuevo grupo en la base de datos
+        await newGroup.save();
+
+        res.data = newGroup;
+        
+        // Responder con éxito
+        return res.status(200).json({
+            message: "Successfull",
+            newGroup,
+        });
+    } catch (error) {
+        // Manejo de errores
+        return res.status(500).send(error.message);
+    }
+}
+
+
 const getQ1 = async (req, res) => {
     const { curp } = req.body
 
@@ -218,6 +256,7 @@ const getQ9 = async (req, res) => {
 }
 
 module.exports = {
+    addGroup,
     getQ1,
     getQ2,
     getQ3,

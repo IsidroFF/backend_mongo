@@ -18,7 +18,7 @@ module.exports = (req, res, next) => {
             console.error('Redis client -->> No conectado.');
             return;
         }
-        const key = `${req.method}:${Date.now()}:${req.originalUrl}`;
+        const key = `${req.method}:${Date.now().toString()}:${req.originalUrl}`;
         const logEntry = JSON.stringify({
             time: new Date(),
             req: {

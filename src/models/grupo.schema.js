@@ -6,7 +6,7 @@ const ExpedienteSchema = new Schema({
   materia: { type: String, required: true },
   calificacion: { type: Number, required: true },
   avance: { type: String, required: true }
-});
+}, {_id: false});
 
 // Subesquema para los estudiantes
 const EstudianteSchema = new Schema({
@@ -15,8 +15,8 @@ const EstudianteSchema = new Schema({
   Nombre: { type: String, required: true },
   Carrera: { type: String, required: true },
   Tecnológico: { type: String, required: true },
-  Expediente_académico: [ExpedienteSchema]
-});
+  "Expediente académico": [{ type: ExpedienteSchema }]
+}, {_id:false});
 
 // Subesquema para la materia
 const MateriaSchema = new Schema({
@@ -24,8 +24,8 @@ const MateriaSchema = new Schema({
   Nombre: { type: String, required: true },
   Carrera: { type: String, required: true },
   Descripción: { type: String, required: true },
-  Plan_de_estudios: [{ type: String }]
-});
+  "Plan de estudios": [{ type: String }]
+}, {_id:false});
 
 // Subesquema para el docente
 const DocenteSchema = new Schema({
@@ -33,23 +33,23 @@ const DocenteSchema = new Schema({
   Nombre: { type: String, required: true },
   Carrera: { type: String, required: true },
   Tecnológico: { type: String, required: true },
-  Materias_impartidas: [{ type: String }]
-});
+  "Materias impartidas": [{ type: String }]
+}, {_id:false});
 
 // Subesquema para el aula
 const AulaSchema = new Schema({
   IDaula: { type: String, required: true },
   Edificio: { type: String, required: true },
-  Grupos_atendidos: [{ type: String }],
-  Descripción_de_equipamiento: { type: String, required: true }
-});
+  "Grupos atendidos": [{ type: String }],
+  "Descripción de equipamiento": { type: String, required: true }
+}, {_id: false});
 
 // Esquema principal
 const GrupoSchema = new Schema({
   ID_grupo: { type: String, required: true },
   Materia: MateriaSchema,
   Docente: DocenteSchema,
-  Estudiantes: [EstudianteSchema],
+  Estudiantes: [{type: EstudianteSchema}],
   Aula: AulaSchema,
   Horario: { type: String, required: true }
 });
