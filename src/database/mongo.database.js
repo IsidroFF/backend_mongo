@@ -9,8 +9,7 @@ mongoose.connect(process.env.MONGO_URL)
         console.log('Conectado a MongoDB'); // Mensaje de éxito en la conexión
     })
     .catch((error) => {
-        console.error('Error al conectar a MongoDB:', error); // Mensaje de error en la
-        conexión
+        console.error('Error al conectar a MongoDB:', error); // Mensaje de error en la conexión
     });
 
 // Configuración de Redis
