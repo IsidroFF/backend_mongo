@@ -2,6 +2,7 @@ version: '3.8'
 services:
   mongo-secondary1:
     image: mongo
+    container_name: mondongo_sec1
     command: mongod --replSet replica01
     ports:
       - "27018:27017"
@@ -11,6 +12,7 @@ services:
 
   mongo-secondary2:
     image: mongo
+    container_name: mondongo_sec2
     command: mongod --replSet replica01
     ports:
       - "27019:27017"
@@ -20,6 +22,7 @@ services:
 
   mongo-secondary3:
     image: mongo
+    container_name: mondongo_sec3
     command: mongod --replSet replica01
     ports:
       - "27020:27017"
@@ -29,9 +32,27 @@ services:
 
   mongo-primary:
     image: mongo
+    container_name: mondongo_primary
     command: mongod --replSet replica01
     ports:
       - "27017:27017"
+    healthcheck:
+      test: >
+        echo "try { rs.status() } catch (err) { 
+          rs.initiate({
+            _id: 'replica01', 
+            members: [
+              { _id: 0, host: '172.50.0.4:27017', priority: 1 },
+              { _id: 1, host: '172.50.0.7:27017', priority: 0.5 },
+              { _id: 2, host: '172.50.0.6:27017', priority: 0.5 },
+              { _id: 3, host: '172.50.0.5:27017', priority: 0.5 }
+            ]
+          }) 
+        }" | mongosh --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      retries: 30
     networks:
       backend:
         ipv4_address: 172.50.0.4
